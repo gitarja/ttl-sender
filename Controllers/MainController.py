@@ -43,9 +43,9 @@ class MainController:
 
     def sync(self):
         self.sender.start(priority=QThread.HighestPriority)
+        self.sender.stop()
 
     def stopRecording(self):
-        self.sender.stop()
         self.view.stopButton.setEnabled(False)
 
 
