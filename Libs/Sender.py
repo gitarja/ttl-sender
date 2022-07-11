@@ -7,9 +7,12 @@ from Libs.Conf import VICON
 import datetime
 import winsound
 import serial
+import RPi.GPIO as GPIO
 
 HIGH = 255
 LOW = 0
+
+
 
 
 # HIGH = b'1'
@@ -46,10 +49,22 @@ class TTLSender(QThread):
         self.time.clear()
         self.run_output.emit(0)
 
+    # def playNotification(self):
+    #     frequency = 2500  # Set Frequency To 2500 Hertz
+    #     duration = 1000  # Set Duration To 1000 ms == 1 second
+    #     winsound.Beep(frequency, duration)
+
     def playNotification(self):
-        frequency = 2500  # Set Frequency To 2500 Hertz
-        duration = 1000  # Set Duration To 1000 ms == 1 second
-        winsound.Beep(frequency, duration)
+        BuzzerPin = 23
+
+        GPIO.setwarnings(False)
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(BuzzerPin, GPIO.OUT, initial=GPIO.LOW)
+
+        GPIO.output(BuzzerPin, GPIO.HIGH)
+        time.sleep(0.5)
+        print("Beep")
+        GPIO.output(BuzzerPin, GPIO.LOW)
 
 
 class SendReadUDP(QThread):
